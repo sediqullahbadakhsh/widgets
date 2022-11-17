@@ -24,7 +24,7 @@ function App() {
       value: "red",
     },
     {
-      label: "The Color Gree",
+      label: "The Color Green",
       value: "green",
     },
     {
@@ -33,13 +33,19 @@ function App() {
     },
   ];
   const [selected, setSelected] = useState(options[0]);
+  const [showdropdown, setShowDropdown] = useState(true);
   return (
     <div>
-      <Dropdown
-        options={options}
-        selected={selected}
-        onSelectedChange={setSelected}
-      />
+      <button onClick={() => setShowDropdown(!showdropdown)}>
+        Toggle Dropdown
+      </button>
+      {showdropdown ? (
+        <Dropdown
+          options={options}
+          selected={selected}
+          onSelectedChange={setSelected}
+        />
+      ) : null}
     </div>
   );
 }
