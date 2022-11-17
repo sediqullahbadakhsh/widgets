@@ -4,7 +4,7 @@ import axios from "axios";
 const Search = () => {
   const [term, setTerm] = useState("programming");
   const [results, setResults] = useState([]);
-  console.log(results);
+
   useEffect(() => {
     const search = async () => {
       const { data } = await axios.get("https://en.wikipedia.org/w/api.php", {
@@ -18,12 +18,20 @@ const Search = () => {
       });
       setResults(data.query.search);
     };
-    const timeoutID = setTimeout(() => {
-      if (term) {
-        search();
-      }
-    }, 500);
-  }, [term]);
+
+    if (term && !results.length) {
+      search();
+    } else {
+      const timeoutID = setTimeout(() => {
+        if (term) {
+          search();
+        }
+      }, 1000);
+      return () => {
+        clearTimeout(timeoutID);
+      };
+    }
+  }, [term, results.length]);
   const renderResults = results.map((result) => {
     return (
       <div key={result.pageid} className="item">
